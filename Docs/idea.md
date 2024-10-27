@@ -42,3 +42,15 @@
    3. 设置敌人；
    4. 完成射击效果；
    5. 设计光影效果，引入 SAN 值设置；
+
+
+
+### 2.2. 美术
+
+使用的素材：
+
+- [枪，而且可以拆卸](https://assetstore.unity.com/packages/2d/characters/pixel-gun-and-throwable-294254)；
+- [包含角色、怪物、特效，但是枪没得换](https://assetstore.unity.com/packages/2d/environments/super-grotto-escape-pack-238393)；
+- [好看的野外场景](https://assetstore.unity.com/packages/p/pixel-art-top-down-basic-187605)；
+- [**更加 mini 的角色**](https://o-lobster.itch.io/simple-dungeon-crawler-16x16-pixel-pack)；
+- [**多种枪、效果、子弹**](https://humanisred.itch.io/weapons-and-bullets-pixel-art-asset)；
