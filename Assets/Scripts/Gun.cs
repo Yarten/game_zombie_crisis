@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -9,22 +10,29 @@ public class Gun : MonoBehaviour
     // 基本属性
     public bool allowContinuousShooting = false;
     
+    public GameObject bulletPrefab;
+    public GameObject bulletShellPrefab;
+    
     private Transform _transform;
-    private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     
     private Vector3 _originalLocalPosition;
     private Vector3 _flippedLocalPosition;
 
+    private Transform _muzzleTransform;
+    private Transform _ejectionPortTransform;
+
     private void Awake()
     {
         _transform = GetComponent<Transform>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         
         _originalLocalPosition = _transform.localPosition;
         _flippedLocalPosition = _transform.localPosition;
         _flippedLocalPosition.x *= -1;
+        
+        _muzzleTransform = _transform.Find("Muzzle");
+        _ejectionPortTransform = _transform.Find("EjectionPort");
     }
     
     /// <summary>
@@ -35,15 +43,19 @@ public class Gun : MonoBehaviour
     {
         _transform.right = direction;
 
+        if (_transform.eulerAngles.y != 0)
+        {
+            _transform.eulerAngles = new Vector3(0, 0, 180);
+        }
+
         if (direction.x < 0)
         {
             _transform.localPosition = _flippedLocalPosition;
-            _spriteRenderer.flipY = true;
+            _transform.Rotate(new Vector3(180, 0, 0));
         }
         else
         {
             _transform.localPosition = _originalLocalPosition;
-            _spriteRenderer.flipY = false;
         }
     }
 
@@ -63,6 +75,10 @@ public class Gun : MonoBehaviour
     /// </summary>
     public void FireBullet()
     {
-        Debug.Log(gameObject.name + " is going to bullet");
+        GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+        bullet.GetComponent<Bullet>().Eject(_muzzleTransform);
+        
+        GameObject bulletShell = ObjectPool.Instance.GetObject(bulletShellPrefab);
+        bulletShell.GetComponent<BulletShell>().Eject(_ejectionPortTransform);
     }
 }

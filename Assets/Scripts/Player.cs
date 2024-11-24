@@ -55,17 +55,13 @@ public class Player : MonoBehaviour
             return;
         
         lookDirection.z = 0;
-        DoLook(lookDirection.normalized);
+        DoLook(worldPosition, lookDirection.normalized);
     }
 
-    private void DoLook(Vector3 direction)
+    private void DoLook(Vector3 position, Vector3 direction)
     {
         _spriteRenderer.flipX = direction.x < 0;
-
-        foreach (var gun in guns)
-        {
-            gun.GetComponent<Gun>().PointTo(direction);
-        }
+        CurrentGun?.GetComponent<Gun>().PointTo(direction);
     }
 
     private void OnMove(InputValue value)
